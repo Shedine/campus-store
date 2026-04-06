@@ -1,0 +1,69 @@
+<nav>
+  <a href="index.html">Home</a> |
+  <a href="cart.html">Cart</a>
+</nav>
+
+<h2>Your Cart</h2>
+<div id="cart-items"></div>
+<h3 id="total"></h3>
+
+<script>
+fetch("http://localhost:5000/api/cart/user123")
+  .then(res => res.json())
+  .then(data => {
+    const div = document.getElementById("cart-items");
+    let total = 0;
+
+    data.forEach(item => {
+      total += item.total;
+
+      div.innerHTML += `
+        <div style="border:1px solid #ccc; padding:10px; margin:10px;">
+          <img src="${item.image}" width="100"/>
+          <h3>${item.name}</h3>
+          <p>Price: KES ${item.price}</p>
+          <p>Quantity: ${item.quantity}</p>
+          <p>Total: KES ${item.total}</p>
+        </div>
+      `;
+    });
+
+    document.getElementById("total").innerText = "Grand Total: KES " + total;
+  });
+ 
+</script>
+<button onclick="checkout()">Checkout</button>
+
+<script>
+   function checkout() {
+  fetch("http://localhost:5000/api/orders/checkout", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      userId: "user123"
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    alert("Order placed successfully!");
+    window.location.reload(); // refresh cart
+  })
+  .catch(err => console.log(err));
+}
+</script>
+
+<button onclick="removeItem('${item.productId}')">Remove</button>
+<script>
+  function removeItem(id) {
+  fetch("http://localhost:5000/api/cart/remove/" + id, {
+    method: "DELETE"
+  })
+  .then(() => location.reload());
+}
+
+</script>
+
+<div id="cart-items"></div>
+

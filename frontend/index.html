@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Store - Online Shop</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <h2>Campus Store</h2>
+        <div class="menu-toggle" id="mobile-menu">&#9776;</div>
+
+        <input type="text" id="search-bar" placeholder="Search products..." />
+<select id="price-filter">
+    <option value="all">All Prices</option>
+    <option value="low">Below 500</option>
+    <option value="mid">500 - 1000</option>
+    <option value="high">Above 1000</option>
+</select>
+
+        <ul class="nav-links">
+            <li id="tab-home" class="active">Home</li>
+            <li id="tab-shop">Shop</li>
+            <li id="tab-cart">Cart (<span id="cart-count">0</span>)</li>
+            <li id="tab-admin">Admin</li>
+            <li id="tab-orders">Orders</li>
+            <li id="tab-login">Login</li>
+            <li onclick="logout()">Logout</li>
+        </ul>
+    </nav>
+
+    <section id="login-section" style="display:none;">
+    <h2>Login / Register</h2>
+
+    <input type="text" id="auth-username" placeholder="Username">
+    <input type="password" id="auth-password" placeholder="Password">
+
+    <button onclick="register()">Register</button>
+    <button onclick="login()">Login</button>
+</section>
+
+
+    <!-- Home Section -->
+    <section id="home-section">
+    <div class="hero">
+        <div class="hero-content">
+            <h1>🔥 Campus Deals You Can't Miss</h1>
+            <p>Snacks 🍔 | Electronics 🎧 | Essentials 📚 — Delivered to your hostel</p>
+            <div class="hero-buttons">
+                <button onclick="showSection('shop')">🛒 Shop Now</button>
+                <button onclick="openCart()">View Cart</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features -->
+    <div class="features">
+        <div class="feature">
+            <h3>⚡ Fast Delivery</h3>
+            <p>Get your items within minutes on campus</p>
+        </div>
+        <div class="feature">
+            <h3>💸 Student Prices</h3>
+            <p>Affordable deals made for comrades</p>
+        </div>
+        <div class="feature">
+            <h3>📦 Easy Orders</h3>
+            <p>Simple checkout, no stress</p>
+        </div>
+    </div>
+
+    <!-- Trending Products -->
+    <div class="trending">
+        <h2>🔥 Trending Now</h2>
+        <div id="trending-products" class="product-grid"></div>
+    </div>
+</section>
+
+
+    <!-- Shop Section -->
+    <section id="shop-section" class="products" style="display:none;">
+        <h2>Products</h2>
+        <div id="product-list" class="product-grid"></div>
+    </section>
+
+   <!-- Cart Modal -->
+<div id="cart-modal" class="cart-modal">
+  <div class="cart-content">
+    <span id="close-cart">&times;</span>
+    <h2>Your Cart</h2>
+    <div id="cart-items"></div>
+    <h3 id="cart-total"></h3>
+    <button onclick="checkout()">Checkout</button>
+  </div>
+</div>
+
+<!-- Product Modal -->
+<div id="product-modal" class="product-modal">
+  <div class="product-modal-content">
+    <span id="close-product">&times;</span>
+
+    <img id="modal-image">
+    <h2 id="modal-name"></h2>
+    <p id="modal-price"></p>
+    <p id="modal-desc">High quality product for campus life.</p>
+
+    <button id="modal-add-btn">Add to Cart</button>
+  </div>
+</div>
+
+    <!-- Admin Section -->
+    <section id="admin-section" style="display:none;">
+        <h2>Admin Panel</h2>
+        <div class="admin-form">
+            <input type="text" id="admin-name" placeholder="Product Name">
+            <input type="number" id="admin-price" placeholder="Price">
+            <input type="text" id="admin-image" placeholder="Image URL">
+            <button id="add-product-btn">Add Product</button>
+        </div>
+        <div id="admin-preview" class="product-grid"></div>
+    </section>
+
+    <!-- Orders Section -->
+    <section id="orders-section" style="display:none;">
+        <h2>My Orders</h2>
+        <div id="orders-list" class="orders-grid"></div>
+    </section>
+
+    <div id="toast"></div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
