@@ -1,45 +1,35 @@
 const express = require("express");
 const router = express.Router();
 const Product = require("../models/Product");
+const { auth, isAdmin } = require("../middleware/auth");
 
-// Add product
-router.post("/add", async (req, res) => {
-  try {
-    const product = new Product(req.body);
-    await product.save();
-    res.json(product);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// Get products
-router.get("/", async (req, res) => {
-  try {
-    const products = await Product.find();
-    res.json(products);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// Add product
-router.post("/", async (req, res) => {
+// ADD PRODUCT
+router.post("/", auth, isAdmin, async (req, res) => {
     try {
-        const { name, price, image } = req.body;
-
-        const product = new Product({
-            name,
-            price,
-            image
-        });
-
+        const product = new Product(req.body);
         await product.save();
-
-        res.json({ message: "Product added" });
+        res.json(product);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
+});
+
+// GET PRODUCTS
+router.get("/", async (req, res) => {
+    const products = await Product.find();
+    res.json(products);
+});
+
+// DELETE
+router.delete("/:id", auth, isAdmin, async (req, res) => {
+    await Product.findByIdAndDelete(req.params.id);
+    res.json({ success: true });
+});
+
+// UPDATE
+router.put("/:id", auth, isAdmin, async (req, res) => {
+    const updated = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json({ success: true, product: updated });
 });
 
 module.exports = router;

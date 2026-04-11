@@ -4,10 +4,10 @@ const Order = require("../models/Order");
 const Cart = require("../models/Cart");
 const Product = require("../models/Product");
 
-// Checkout
+// CHECKOUT
 router.post("/checkout", async (req, res) => {
   try {
-    const { userId } = req.body;
+    const { userId, location } = req.body;
 
     const cartItems = await Cart.find({ userId });
 
@@ -29,27 +29,14 @@ router.post("/checkout", async (req, res) => {
       }
     }
 
-    // Get all orders for a user
-router.get("/:userId", async (req, res) => {
-  try {
-    const orders = await Order.find({ userId: req.params.userId });
-
-    res.json(orders);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-
     const order = new Order({
       userId,
       items,
-      total
+      totalAmount: total
     });
 
     await order.save();
 
-    // CLEAR CART AFTER CHECKOUT
     await Cart.deleteMany({ userId });
 
     res.json({ message: "Order placed successfully", order });
@@ -58,5 +45,28 @@ router.get("/:userId", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+// ✅ GET ORDERS (OUTSIDE)
+router.get("/:userId", async (req, res) => {
+  try {
+    const orders = await Order.find({ userId: req.params.userId });
+    res.json(orders);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+router.get("/admin/all", async (req, res) => {
+    const orders = await Order.find();
+    res.json(orders);
+});
+
+router.put("/:id/status", async (req, res) => {
+    const { status } = req.body;
+
+    await Order.findByIdAndUpdate(req.params.id, { status });
+
+    res.json({ message: "Status updated" });
+});
+
 
 module.exports = router;

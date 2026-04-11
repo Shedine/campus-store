@@ -3,11 +3,11 @@ const router = express.Router();
 const axios = require("axios");
 
 // Replace with your credentials
-const consumerKey = "6YVyu93lOCr1jETmWoAD2byoWgQlCjgWInFumGmJsuv88D72";
-const consumerSecret = "IoKOl2G75OPqIxTSwCZ9GBHUriG4kdTB9QDqFjXxhpihgF61P9ZhmuqMMU0LMAv3";
+const consumerKey = "na4tpl8Y6ZTi9MclpjoPSN5q9Vs7QIw2BPQ9CwM8SjTiKmmO";
+const consumerSecret = "2JJMWg7oDKoUXPaLIYlBTmmfp1vpV2KSIM2Ou6C04oSLV8YJGx2e88A6rjCVCBCi";
 
 const shortcode = "174379";
-const passkey = "";
+const passkey = "bfb279f9aa9bdbcf158f3e3b8d7e9c6b";
 
 function getTimestamp() {
     const date = new Date();
@@ -66,6 +66,13 @@ router.post("/pay", async (req, res) => {
         console.log(err.response?.data || err.message);
         res.status(500).json({ error: "Payment failed" });
     }
+});
+router.post("/callback", (req, res) => {
+    console.log("MPESA CALLBACK:", JSON.stringify(req.body, null, 2));
+
+    // TODO: store payment status in DB later
+
+    res.json({ message: "Callback received" });
 });
 
 module.exports = router;

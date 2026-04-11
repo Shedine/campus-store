@@ -51,10 +51,18 @@ body {
 
 /* Hero Section */
 .hero {
-    background: url('https://images.unsplash.com/photo-1564866657310-7e0f8a3c3b0e') center/cover no-repeat;
-    color: white;
+    height: 90vh;
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+     url("../images/background.png");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    padding: 100px 20px;
 }
 
 .hero h1 {
@@ -101,8 +109,9 @@ body {
 
 .product:hover {
     transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
 }
+
 
 /* Product Hover Info */
 .product button {
@@ -298,18 +307,19 @@ body {
         height: 120px;
     }
 }
-/* HERO UPGRADE */
-.hero {
-    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
-    url('https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da') center/cover no-repeat;
-    color: white;
-    text-align: center;
-    padding: 120px 20px;
-}
 
 .hero-content {
     max-width: 700px;
     margin: auto;
+}
+.hero-content p {
+    color: #ddd;
+    margin: 10px 0;
+}
+
+.hero-content h1 {
+    color: #fff;
+    font-size: 3rem;
 }
 
 .hero h1 {
@@ -324,9 +334,12 @@ body {
 
 .hero-buttons button {
     margin: 10px;
-    padding: 12px 25px;
-    font-size: 1.1em;
+    padding: 10px 20px;
     border: none;
+    background: #ff6f00;
+    color: white;
+    cursor: pointer;
+    font-size: 1.1em;
     border-radius: 30px;
     cursor: pointer;
     transition: 0.3s;
@@ -427,4 +440,118 @@ body {
     from { transform: scale(0.8); opacity: 0; }
     to { transform: scale(1); opacity: 1; }
 }
+.product img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+.auth-modal {
+    display: none;
+    position: fixed;
+    z-index: 1100;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7);
+}
 
+.auth-modal-content {
+    background: #fff;
+    max-width: 400px;
+    margin: 8% auto;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    animation: fadeIn 0.3s ease;
+}
+
+.auth-modal-content input {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.auth-modal-content button {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    background: #FF6F00;
+    color: white;
+    cursor: pointer;
+}
+
+#switch-auth span {
+    color: #FF6F00;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Product Detail Modal */
+.product-modal {
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6);
+}
+
+.product-modal-content {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 20px;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 10px;
+    text-align: center;
+    position: relative;
+}
+
+.product-modal-content img {
+    width: 80%;
+    margin-bottom: 15px;
+}
+
+.product-modal-content button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #ff4b2b;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.product-modal-content button:hover {
+    background-color: #ff3a1a;
+}
+
+#close-product {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    cursor: pointer;
+}
+#close-auth {
+    cursor: pointer;
+    font-size: 24px;
+}
+#close-auth {
+    cursor: pointer;
+    font-size: 24px;
+}
+/* AUTH FORM FIX */
+.auth-modal-content input {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}

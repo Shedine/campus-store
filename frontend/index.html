@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Campus Store - Online Shop</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/png" href="images/logo.png">
 </head>
 <body>
 
@@ -25,23 +26,60 @@
             <li id="tab-home" class="active">Home</li>
             <li id="tab-shop">Shop</li>
             <li id="tab-cart">Cart (<span id="cart-count">0</span>)</li>
-            <li id="tab-admin">Admin</li>
+            <li id="tab-admin" style="display:none;">Admin</li>
             <li id="tab-orders">Orders</li>
             <li id="tab-login">Login</li>
-            <li onclick="logout()">Logout</li>
+            <li id="tab-logout" onclick="logout()" style="display:none;">Logout</li>
+            <li id="tab-profile">Profile</li>
         </ul>
     </nav>
-
-    <section id="login-section" style="display:none;">
-    <h2>Login / Register</h2>
-
+    <!-- Auth Modal -->
+<div id="auth-modal" class="auth-modal">
+  <div class="auth-modal-content">
+    <span id="close-auth">&times;</span>
+    <h2 id="auth-title">Login</h2>
+    
     <input type="text" id="auth-username" placeholder="Username">
-    <input type="password" id="auth-password" placeholder="Password">
+    <input type="email" id="auth-email" placeholder="Email">
+    <div style="position:relative;">
+    <input type="password" id="auth-password" placeholder="Password" style="width:100%;">
+    </div>
+    <div style="position:relative;">
+    <input type="password" id="auth-confirm" placeholder="Confirm Password" style="width:100%;">
+    </div>
+    <div id="password-strength-container" style="display:none;">
+    <div id="password-strength-bar" style="height:6px;width:100%;background:#ddd;border-radius:5px;margin-top:5px;">
+        <div id="strength-fill" style="height:100%;width:0%;background:red;border-radius:5px;"></div>
+    </div>
+    <p id="password-strength"></p>
+</div>
 
-    <button onclick="register()">Register</button>
-    <button onclick="login()">Login</button>
-</section>
+    <button id="auth-action-btn">Login</button>
+    <p><span id="forgot-password" style="color:#FF6F00;cursor:pointer;">Forgot Password?</span></p>
+    <p id="switch-auth">Don't have an account? <span id="switch-link">Register</span></p>
+    <div id="auth-loading" style="display:none;">⏳ Processing...</div>
+  </div>
+</div>
 
+<div id="otp-modal" class="auth-modal">
+  <div class="auth-modal-content">
+    <h2>Verify OTP</h2>
+    <span id="close-otp">&times;</span>
+    <input type="email" id="otp-email" placeholder="Email">
+    <input type="text" id="otp-code" placeholder="Enter OTP">
+    <button id="verify-btn">Verify</button>
+    <p id="otp-message" style="color:red;"></p>
+    <p id="resend-text">
+    Resend OTP in <span id="resend-timer">30</span>s
+</p>
+<button id="resend-btn" disabled>Resend OTP</button>
+
+<p id="no-otp" style="color:blue;cursor:pointer;">
+Didn't receive OTP?
+</p>
+    
+  </div>
+</div>
 
     <!-- Home Section -->
     <section id="home-section">
@@ -93,21 +131,19 @@
     <h2>Your Cart</h2>
     <div id="cart-items"></div>
     <h3 id="cart-total"></h3>
-    <button onclick="checkout()">Checkout</button>
-  </div>
+    <div id="location-box">
+    <select id="user-location">
+    <option value="">Select delivery location</option>
+    <option>Main Gate</option>
+    <option>Hostel A</option>
+    <option>Hostel B</option>
+    <option>Library</option>
+    <option>Admin Block</option>
+</select>
+
+    <button onclick="saveLocation()">Save Location</button>
 </div>
-
-<!-- Product Modal -->
-<div id="product-modal" class="product-modal">
-  <div class="product-modal-content">
-    <span id="close-product">&times;</span>
-
-    <img id="modal-image">
-    <h2 id="modal-name"></h2>
-    <p id="modal-price"></p>
-    <p id="modal-desc">High quality product for campus life.</p>
-
-    <button id="modal-add-btn">Add to Cart</button>
+    <button onclick="checkout()">Checkout</button>
   </div>
 </div>
 
@@ -118,6 +154,7 @@
             <input type="text" id="admin-name" placeholder="Product Name">
             <input type="number" id="admin-price" placeholder="Price">
             <input type="text" id="admin-image" placeholder="Image URL">
+            <input type="number" id="admin-stock" placeholder="Stock">
             <button id="add-product-btn">Add Product</button>
         </div>
         <div id="admin-preview" class="product-grid"></div>
@@ -131,6 +168,22 @@
 
     <div id="toast"></div>
 
-    <script src="js/app.js"></script>
+    <!-- Product Detail Modal -->
+<div id="product-modal" class="product-modal">
+  <div class="product-modal-content">
+    <span id="close-product">&times;</span>
+    <img id="product-modal-image" src="" alt="Product Image">
+    <h2 id="product-modal-name"></h2>
+    <p id="product-modal-price"></p>
+    <p id="product-modal-description">No description available</p>
+    <div class="quantity-section">
+        <label for="product-quantity">Quantity:</label>
+        <input type="number" id="product-quantity" value="1" min="1">
+    </div>
+    <button id="product-add-cart-btn">Add to Cart</button>
+  </div>
+</div>
+
+    <script defer src="js/app.js"></script>
 </body>
 </html>
