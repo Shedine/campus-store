@@ -49,7 +49,7 @@ document.getElementById("price-filter").addEventListener("change", (e) => {
 function loadProducts() {
     productList.innerHTML = "<p>Loading products...</p>";
 
-    fetch("http://localhost:5000/api/products")
+    fetch("https://campus-store-api.onrender.com/api/products")
     .then(res => res.json())
     .then(data => {
         allProducts = data;
@@ -188,7 +188,7 @@ function editProduct(id) {
     const stock = prompt("New stock:", product.stock || 0);
     if (stock === null) return;
 
-    fetch(`http://localhost:5000/api/products/${id}`, {
+    fetch(`https://campus-store-api.onrender.com/api/products/${id}`, {
         method: "PUT",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({ name, price, stock })
@@ -212,7 +212,7 @@ const cartItemsDiv = document.getElementById("cart-items");
 const cartTotal = document.getElementById("cart-total");
 
 function fetchCart() {
-    fetch(`http://localhost:5000/api/cart/${currentUser}`, {
+    fetch(`https://campus-store-api.onrender.com/api/cart/${currentUser}`, {
     headers: {
         "Authorization": "Bearer " + localStorage.getItem("token")
     }
@@ -278,7 +278,7 @@ function addToCart(productId, btn, quantity = 1) {
         btn.textContent = "Adding...";
     }
 
-    fetch("http://localhost:5000/api/cart/add", { 
+    fetch("https://campus-store-api.onrender.com/api/cart/add", { 
         method: "POST",
         headers: {
     "Content-Type":"application/json",
@@ -334,7 +334,7 @@ function showToast(message) {
 
 
 function removeFromCart(id) {
-    fetch(`http://localhost:5000/api/cart/remove/${id}`, {
+    fetch(`https://campus-store-api.onrender.com/api/cart/remove/${id}`, {
     method:"DELETE",
     headers: {
         "Authorization": "Bearer " + localStorage.getItem("token")
@@ -345,7 +345,7 @@ function removeFromCart(id) {
 
 function changeQty(id,newQty) {
     if(newQty<1) return;
-    fetch(`http://localhost:5000/api/cart/update/${id}`, {
+    fetch(`https://campus-store-api.onrender.com/api/cart/update/${id}`, {
         method:"PUT",
         headers:{
     "Content-Type":"application/json",
@@ -365,7 +365,7 @@ function checkout() {
     const phone = prompt("Enter phone (2547XXXXXXXX):");
     if (!phone) return;
 
-    fetch("http://localhost:5000/api/mpesa/pay", {
+    fetch("https://campus-store-api.onrender.com/api/mpesa/pay", {
         method: "POST",
         headers: {
     "Content-Type": "application/json",
@@ -393,7 +393,7 @@ function fetchOrders() {
         return;
     }
 
-    fetch(`http://localhost:5000/api/orders/${currentUser}`, {
+    fetch(`https://campus-store-api.onrender.com/api/orders/${currentUser}`, {
     headers: {
         "Authorization": "Bearer " + localStorage.getItem("token")
     }
@@ -415,7 +415,7 @@ document.getElementById("add-product-btn").addEventListener("click",()=>{
     alert("Fill all fields");
     return;
 }
-    fetch("http://localhost:5000/api/products", {
+    fetch("https://campus-store-api.onrender.com/api/products", {
     method:"POST",
     headers:{
     "Content-Type":"application/json",
@@ -435,7 +435,7 @@ document.getElementById("add-product-btn").addEventListener("click",()=>{
 });
 
 function deleteProduct(id) {
-    fetch(`http://localhost:5000/api/products/${id}`, {
+    fetch(`https://campus-store-api.onrender.com/api/products/${id}`, {
     method: "DELETE",
     headers: {
     "Authorization": "Bearer " + localStorage.getItem("token")
@@ -486,7 +486,7 @@ const sections = {
     };
 
 function placeOrderAfterPayment() {
-    fetch("http://localhost:5000/api/orders/checkout", {
+    fetch("https://campus-store-api.onrender.com/api/orders/checkout", {
         method: "POST",
        headers: {
     "Content-Type": "application/json",
@@ -702,7 +702,7 @@ authBtn.onclick = async () => {
     try {
         if (authTitle.textContent === "Login") {
 
-            const res = await fetch("http://localhost:5000/api/auth/login", {
+            const res = await fetch("https://campus-store-api.onrender.com/api/auth/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -750,7 +750,7 @@ localStorage.removeItem("guestCart");
 
         } else {
 
-            const res = await fetch("http://localhost:5000/api/auth/register", {
+            const res = await fetch("https://campus-store-api.onrender.com/api/auth/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -809,7 +809,7 @@ document.getElementById("resend-btn").addEventListener("click", () => {
 
     const email = document.getElementById("otp-email").value;
 
-    fetch("http://localhost:5000/api/auth/register", {
+    fetch("https://campus-store-api.onrender.com/api/auth/register", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({
@@ -832,7 +832,7 @@ document.getElementById("verify-btn").addEventListener("click", () => {
         return;
     }
 
-    fetch("http://localhost:5000/api/auth/verify", {
+    fetch("https://campus-store-api.onrender.com/api/auth/verify", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({ email, otp })
@@ -900,7 +900,7 @@ function updateAuthUI() {
 }
 
 function loadProfile() {
-    fetch(`http://localhost:5000/api/auth/profile/${currentUser}`)
+    fetch(`https://campus-store-api.onrender.com/api/auth/profile/${currentUser}`)
     .then(res => res.json())
     .then(data => {
         console.log("PROFILE:", data);
@@ -914,7 +914,7 @@ if (forgotBtn) {
 
         if (!email) return;
 
-        fetch("http://localhost:5000/api/auth/forgot", {
+        fetch("https://campus-store-api.onrender.com/api/auth/forgot", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({ email })
