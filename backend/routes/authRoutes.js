@@ -34,7 +34,7 @@ if (password.length < 6) {
         existingUser.otpExpires = Date.now() + 5 * 60 * 1000;
 
         await existingUser.save();
-        console.log("OTP for", email, "is:", otp); // ✅ TEMP DEBUG
+        await sendOTP(email, otp);
 
         return res.json({
           success: true,
@@ -58,7 +58,7 @@ if (password.length < 6) {
     });
 
     await user.save();
-    console.log("RESEND OTP for", email, "is:", otp);
+    await sendOTP(email, otp);
 
     res.json({ success: true, message: "OTP sent" });
 
@@ -91,8 +91,7 @@ router.post("/login", async (req, res) => {
       user.otp = otp;
       user.otpExpires = Date.now() + 5 * 60 * 1000;
 
-      await user.save();
-      console.log("LOGIN OTP for", user.email, "is:", otp);
+      await sendOTP(email, otp);
 
       return res.json({
         success: false,
