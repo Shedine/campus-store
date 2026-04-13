@@ -1,28 +1,27 @@
-const nodemailer = require("nodemailer");
+const { Resend } = require("resend");
 
-const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-        user: "hackler12600@gmail.com",
-        pass: "yecouuggthnqjjrx"
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+const sendOTP = async (email, otp) => {
+    try {
+        await resend.emails.send({
+            from: "Campus Store <onboarding@resend.dev>",
+            to: email,
+            subject: "Your OTP Code",
+            html: `
+                <h2>Campus Store Verification</h2>
+                <p>Your OTP is:</p>
+                <h1>${otp}</h1>
+                <p>Expires in 5 minutes</p>
+            `
+        });
+
+        console.log("OTP sent to:", email);
+
+    } catch (err) {
+        console.error("EMAIL ERROR:", err);
+        throw new Error("Email sending failed");
     }
-});
-
-async function sendOTP(email, otp) {
-    await transporter.sendMail({
-        from: "Campus Store",
-        to: email,
-        subject: "Verify your account",
-        html: `
-<div style="font-family:sans-serif">
-  <h2>Campus Store Verification</h2>
-  <p>Your OTP code is:</p>
-  <h1 style="letter-spacing:3px">${otp}</h1>
-  <p>This code expires in 5 minutes.</p>
-  <p>If you didn’t request this, ignore this email.</p>
-</div>
-`
-    });
-}
+};
 
 module.exports = sendOTP;
