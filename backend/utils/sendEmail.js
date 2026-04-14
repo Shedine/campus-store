@@ -1,26 +1,40 @@
-const { Resend } = require("resend");
+const nodemailer = require("nodemailer");
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Gmail SMTP transporter (FREE + works on Render)
+const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    }
+});
 
+// SEND OTP
 const sendOTP = async (email, otp) => {
     try {
-        await resend.emails.send({
-            from: "Campus Store <onboarding@resend.dev>",
+        await transporter.sendMail({
+            from: `"Campus Store" <${process.env.EMAIL_USER}>`,
             to: email,
-            subject: "Your OTP Code",
+            subject: "Your OTP Verification Code",
             html: `
-                <h2>Campus Store Verification</h2>
-                <p>Your OTP is:</p>
-                <h1>${otp}</h1>
-                <p>Expires in 5 minutes</p>
+                <div style="font-family:Arial;padding:10px">
+                    <h2>Campus Store OTP</h2>
+                    <p>Your verification code is:</p>
+                    <h1 style="color:green">${otp}</h1>
+                    <p>Expires in 5 minutes</p>
+                </div>
             `
         });
 
-        console.log("OTP sent to:", email);
+        console.log("✅ OTP sent to:", email);
 
     } catch (err) {
-        console.error("EMAIL ERROR:", err);
-        throw new Error("Email sending failed");
+        console.error("❌ EMAIL ERROR:", err.message);
+
+        // IMPORTANT: do NOT crash server
+        return;
     }
 };
 
