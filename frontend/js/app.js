@@ -454,11 +454,10 @@ function deleteProduct(id) {
                           
 
             }
-        if (data.requireOTP) {
-        document.getElementById("otp-modal").style.display = "block";
-        document.getElementById("otp-email").value = data.email;
-        startResendTimer();
-    }
+     if (!data.success) {
+    showToast(data.message || "Login failed");
+    return;
+}
     });
 }
 

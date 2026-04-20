@@ -47,20 +47,16 @@ if (password.length < 6) {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-
     const user = new User({
-      username,
-      email,
-      password: hashedPassword,
-      otp,
-      otpExpires: Date.now() + 5 * 60 * 1000
-    });
+        username,
+        email,
+        password: hashedPassword,
+        isVerified: true // ✅ AUTO VERIFY USER
+});
 
-    await user.save();
-    await sendOTP(email, otp);
+await user.save();
 
-    res.json({ success: true, message: "OTP sent" });
+res.json({ success: true, message: "Registration successful" });
 
   } catch (err) {
   console.error("LOGIN ERROR:", err);
@@ -85,7 +81,7 @@ router.post("/login", async (req, res) => {
       return res.json({ success: false, message: "Invalid credentials" });
     }
 
-    if (!user.isVerified) {
+    /*if (!user.isVerified) {
       const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
       user.otp = otp;
@@ -99,9 +95,9 @@ router.post("/login", async (req, res) => {
         message: "Verify your account",
         email: user.email
       });
-    }
+    }*/
 
-    // 🔐 JWT TOKEN
+    // JWT TOKEN
     const token = jwt.sign(
       { id: user._id, role: user.role },
       process.env.JWT_SECRET,
@@ -122,7 +118,7 @@ router.post("/login", async (req, res) => {
 });
 
 // VERIFY OTP
-router.post("/verify", async (req, res) => {
+/*router.post("/verify", async (req, res) => {
   try {
     const { email, otp } = req.body;
 
@@ -159,6 +155,7 @@ router.post("/verify", async (req, res) => {
     console.error("VERIFY ERROR:", err); // 🔥 IMPORTANT
     return res.json({ success: false, message: "Server error" });
   }
-});
+}
+);*/
 
 module.exports = router;
